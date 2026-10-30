@@ -815,4 +815,8 @@ def main():
 
 
 if __name__ == "__main__":
+    # Windows defaults text I/O to the ANSI code page, which cannot decode pdftotext output or
+    # read UTF-8 resumes. Rerun in UTF-8 mode instead of passing encoding= to every call.
+    if os.name == "nt" and not sys.flags.utf8_mode:
+        sys.exit(subprocess.run([sys.executable, "-X", "utf8", *sys.argv]).returncode)
     main()
